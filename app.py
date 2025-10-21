@@ -1,12 +1,18 @@
 import streamlit as st
-from dotenv import load_dotenv
+import os
+
+# For local testing, load .env if available (this will be ignored on Streamlit Cloud)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ModuleNotFoundError:
+    pass  # On Streamlit Cloud, dotenv may not be available and is not needed
+
 from modules.pdf_loader import extract_text_from_pdf
 from modules.text_processor import chunk_and_embed_text
 from modules.vector_store import build_vector_store
 from modules.rag_pipeline import get_qa_chain
 from modules.summarizer import summarize_document
-
-load_dotenv()
 
 st.title("AI Legal Document Reviewer powered by LangChain + Gemini")
 uploaded_file = st.file_uploader("Upload a legal PDF", type=["pdf"])
